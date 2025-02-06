@@ -1,0 +1,35 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    image: php:8.3.10-apache
+    container_name: php-container
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - C:/Users/ArthurMF/Desktop/Projects/MovieStar:/var/www/html
+    depends_on:
+      - mysql
+    networks:
+      - minha-rede
+
+  mysql:
+    image: mysql:9.2
+    container_name: mysql-container
+    ports:
+      - "3306:3306"
+    volumes:
+      - C:/Users/ArthurMF/Desktop/Projects/MovieStar/mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=MovieStar
+      - MYSQL_USER=Arthur2025
+      - MYSQL_PASSWORD=12345
+    networks:
+      - minha-rede
+
+networks:
+  minha-rede:
+    driver: bridge
